@@ -9,28 +9,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 
 @RestController
 public class HostelController {
 
+    static final String STUDENT_URL_MS = "http://localhost:8081/";
+
+
+    @Bean
+    public RestTemplate getTemplate() {
+        return new RestTemplate();    }
+
 
     @Autowired
     public RestTemplate restTemplate;
 
-    static final String STUDENT_URL_MS = "http://localhost:8080/";
 
-    @GetMapping("/find/{roll}")
+    @GetMapping("/find/{roll:\\d+}")
     @ResponseBody
-    public Student fetchStudent(@PathVariable  int roll) {
-        UriComponents uriComponents = UriComponentsBuilder.fromUriString(STUDENT_URL_MS)
-                .path("/all/{roll}")
-                .buildAndExpand(roll);
+    public Student fetchStudent(@PathVariable int roll) {
 
-        return restTemplate.getForObject(uriComponents.toUriString(), Student.class);
-
+        Student student = restTemplate.exchange(STUDENT_URL_MS+"all/"+roll, HttpMethod.GET,null,Student.class).getBody();
+        return student;
     }
 
         @GetMapping("/find")
