@@ -15,6 +15,8 @@ public class Student {
 
     private String city;
 
+
+    //contructor with student attributes
     public Student(int roll, String name, String city) {
         this.roll = roll;
         this.name = name;
