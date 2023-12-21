@@ -23,6 +23,8 @@ public class Student {
         this.city = city;
     }
 
+    //no arg constructor
+
     public Student() {
     }
 
